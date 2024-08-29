@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 blue = "^0.9.1"
 isort = "^5.13.2"
+sqlalchemy = "^2.0.32"
 
 
 [build-system]

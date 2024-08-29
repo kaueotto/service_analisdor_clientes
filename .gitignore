@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+conf.ini
 
 # Cython debug symbols
 cython_debug/
