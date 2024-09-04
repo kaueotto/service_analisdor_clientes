@@ -8,5 +8,8 @@ try:
     SERVER = conf.get('server')
     DATABASE = conf.get('database')
     DRIVER = conf.get('driver')
+
+    conf = conf_obj['SECURITY']
+    TOKEN = conf.get('token')
 except:
     pass

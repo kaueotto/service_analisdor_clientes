@@ -10,6 +10,8 @@ python = "^3.11"
 blue = "^0.9.1"
 isort = "^5.13.2"
 sqlalchemy = "^2.0.32"
+flask = "^3.0.3"
+pyjwt = "^2.9.0"
 
 
 [build-system]
