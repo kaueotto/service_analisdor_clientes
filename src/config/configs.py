@@ -11,5 +11,8 @@ try:
 
     conf = conf_obj['SECURITY']
     TOKEN = conf.get('token')
+    
+    conf = conf_obj['KAFKA']
+    ENDERECO_KAFKA= conf.get('endereco')
 except:
     pass
