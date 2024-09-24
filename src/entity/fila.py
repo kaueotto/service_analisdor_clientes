@@ -20,5 +20,5 @@ class Fila(Base):
     FilaResultado = Column(String(255), nullable=True)
     FilaMotivoResultado = Column(String(255), nullable=True)
 
-    cliente = relationship('Cliente', back_populates='filas')
-    modelo = relationship('Modelos', back_populates='filas')
+    #cliente = relationship('Cliente', back_populates='filas')
+    #modelo = relationship('Modelos', back_populates='filas')

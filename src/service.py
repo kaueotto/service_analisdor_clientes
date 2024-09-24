@@ -2,8 +2,10 @@ import json
 
 from flask import Flask, jsonify, request
 
-from adapter import kafka, users
+from adapter import kafka
 from security import security
+from threading import Thread
+from controller import consumer_cadastros
 
 app = Flask(__name__)
 
@@ -23,10 +25,20 @@ app = Flask(__name__)
 
 @app.route('/cadastro', methods=['POST'])
 def cadastros():
+    dados = request.get_json()
+    dados['tipo'] = 'cadastro'
     kafka_controller = kafka.KafkaAdapter()
     kafka_controller.produzir_mensagem(
-        json.dumps(request.get_json()).encode('utf-8'),
+        json.dumps(dados).encode('utf-8'),
         'novo_cadastro',
         'topico-cadastros',
     )
     return jsonify({'mensagem': 'Mensagem Inserida'}), 200
+
+
+if __name__ == '__main__':
+    flask_thread = Thread(target = app.run, kwargs={'host': 'localhost','port': '8081'})
+    consumer_cadastros_thread = Thread(target=consumer_cadastros.consumer_cadastros)
+
+    flask_thread.start()
+    consumer_cadastros_thread.start()
