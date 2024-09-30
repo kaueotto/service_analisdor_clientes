@@ -3,7 +3,8 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
 
-from entity.__init__ import Base, new_session
+from entity.orm import Base
+from entity import orm
 from security import security
 
 
@@ -22,32 +23,16 @@ class Cliente(Base):
 
     @classmethod
     def new_cliente(cls, name: str, email: str) -> str:
-        print('entrou cadastro')
-        print(name)
-        print(email)
-        session = new_session()
-        print(session)
+        QH = orm.QueryHelper()
         try:
-            existing_cliente = session.query(cls).filter_by(CliNome=name).first()
-            print(existing_cliente)
+            existing_cliente = QH.buscar_por_atributo(cls,CliNome=name)
             if existing_cliente:
                 raise ValueError(
                     f"Cliente com o nome '{name}' já está cadastrado."
                 )
-            print(10)
-            new_cliente = cls(
-                CliNome=name, 
-                CliEmail=email, 
-                CliToken=security.create_token(name)
-            )
-            print(11)
-            session.add(new_cliente)
-            session.commit()
-            return new_cliente.CliToken
+            token = security.create_token(name)
+            QH.inserir_registro(cls,CliNome=name,CliEmail=email,CliToken=token)
+            return token
         except Exception as e:
-            # Adicionar tratamento de erro se necessário
             print(f"Erro ao adicionar cliente: {e}")
-            session.rollback()  # Reverte qualquer alteração se ocorrer um erro
             raise
-        finally:
-            session.close()  # Garante que a sessão será fechada

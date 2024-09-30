@@ -2,8 +2,8 @@ from kafka import KafkaConsumer, KafkaProducer
 
 from config import configs
 import json
-import entity
 from entity import cliente
+import time
 
 class KafkaAdapter:
     def __init__(self):
@@ -19,22 +19,31 @@ class KafkaAdapter:
 
     def consumir_mensagem(self, groupid, topico):
         consumer = KafkaConsumer(
+            topico,
             bootstrap_servers=configs.ENDERECO_KAFKA,
-            auto_offset_reset='earliest'
+            group_id=groupid,
+            auto_offset_reset='latest',
+            enable_auto_commit=True,
+            value_deserializer=lambda x: x.decode('utf-8')
         )
-        consumer.subscribe([topico])
-        for message in consumer:
-            if message.value:
-                try:
-                    mensagem_decodificada = message.value.decode('utf-8')
-                    if mensagem_decodificada.strip().startswith('{') and mensagem_decodificada.strip().endswith('}'):
-                        dados = json.loads(message.value)
-                        if dados.get('tipo') == 'cadastro':
-                            cli = cliente.Cliente.new_cliente(dados.get('clinome'), dados.get('cliemail'))
-                            print(f"Mensagem recebida e processada: {cli}")
-                        if dados.get('tipo') == 'modelos':
-                            ...
-                except json.JSONDecodeError as e:
-                    print(f"Erro ao decodificar JSON: {e}, mensagem: {message.value}")
+        while True:
+            mensagem = consumer.poll(timeout_ms=1000)
+            if mensagem:
+                for tp, messages in mensagem.items():
+                    for message in messages:
+                        try:
+                            dados = json.loads(message.value)
+                            match dados.get('tipo'):
+                                case 'cadastro':
+                                    print('aaa')
+                                    cli = cliente.Cliente.new_cliente(dados.get('clinome'), dados.get('cliemail'))
+                                    print(f"Cliente cadastrado: {cli}")
+                        except ValueError as ve:
+                            print(f"Erro: {ve}")
+                        except Exception as e:
+                            print(f"Erro inesperado: {e}") 
+                        except json.JSONDecodeError as e:
+                            print(f"Erro ao decodificar JSON: {e}, mensagem: {message.value}")
             else:
-                print("Mensagem vazia recebida")
+                time.sleep(5)
+        

@@ -4,10 +4,11 @@ from config import configs
 
 
 def create_token(data) -> str:
-    payload = {'data': data}
+    payload = {'    ': data}
+    print(payload)
+    print(configs.TOKEN)
     token = jwt.encode(payload, configs.TOKEN, algorithm='HS256')
     return token
-
 
 def verify_token(token) -> str:
     try:

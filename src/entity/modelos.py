@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from entity import Base
+from entity.orm import Base
 
 
 class Modelos(Base):
@@ -16,4 +16,10 @@ class Modelos(Base):
     ModDataInclusao = Column(DateTime, default=datetime.utcnow, nullable=False)
 
    # cliente = relationship('Cliente', back_populates='modelos')
-   #  filas = relationship('Fila', back_populates='modelo')
+   # filas = relationship('Fila', back_populates='modelo')
+    
+    @classmethod
+    def new_modelo(cls,cliid):
+        ...
+
+

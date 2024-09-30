@@ -9,21 +9,17 @@ from controller import consumer_cadastros
 
 app = Flask(__name__)
 
-# poetry run flask --app src/service.py --debug run
-
-
-# @app.route('/cadastro', methods=['POST'])
-# def cadastro():
-#     data = request.get_json()
-#     try:
-#         user = users.Users(data)
-#         token = user.new_user()
-#         return jsonify({'mensagem': token}), 200
-#     except ValueError as ve:
-#         return jsonify({'error': str(ve)}), 400
-
-
-@app.route('/cadastro', methods=['POST'])
+@app.route('/cadastro/modelos',methods=['POST'])
+def cadastro_modelos():
+    token = None
+    if 'Authorization' in request.headers:
+        token = request.headers['Authorization'].split(" ")[1]
+    if not token:
+        return jsonify({'message': 'Token é necessário!'}),401
+    decoded_token = security.verify_token(token)
+    return jsonify({'Sucesso':decoded_token}),200
+    
+@app.route('/cadastro/cliente', methods=['POST'])
 def cadastros():
     dados = request.get_json()
     dados['tipo'] = 'cadastro'
@@ -42,3 +38,6 @@ if __name__ == '__main__':
 
     flask_thread.start()
     consumer_cadastros_thread.start()
+
+    flask_thread.join()
+    consumer_cadastros_thread.join()
