@@ -17,7 +17,16 @@ def cadastro_modelos():
     if not token:
         return jsonify({'message': 'Token é necessário!'}),401
     decoded_token = security.verify_token(token)
-    return jsonify({'Sucesso':decoded_token}),200
+    if decoded_token: 
+        dados = request.get_json()
+        novo_json = {'tipo': 'dados_treinamento','dados': dados}
+        kafka_controller = kafka.KafkaAdapter()
+        kafka_controller.produzir_mensagem(
+             json.dumps(novo_json).encode('utf-8'),
+             'novo_cadastro',
+             'topico-cadastros',
+        )
+        return jsonify({'mensagem': 'Mensagem Inserida'}), 200
     
 @app.route('/cadastro/cliente', methods=['POST'])
 def cadastros():

@@ -2,7 +2,7 @@ from kafka import KafkaConsumer, KafkaProducer
 
 from config import configs
 import json
-from entity import cliente
+from entity import cliente,dados_modelos
 import time
 
 class KafkaAdapter:
@@ -35,9 +35,12 @@ class KafkaAdapter:
                             dados = json.loads(message.value)
                             match dados.get('tipo'):
                                 case 'cadastro':
-                                    print('aaa')
                                     cli = cliente.Cliente.new_cliente(dados.get('clinome'), dados.get('cliemail'))
                                     print(f"Cliente cadastrado: {cli}")
+                                case 'dados_treinamento':
+                                    for dado in dados['dados']:
+                                        dados_mod = dados_modelos.Dados_modelos.new_dados_modelos(5,**dado)
+                                        print(dados_mod)
                         except ValueError as ve:
                             print(f"Erro: {ve}")
                         except Exception as e:
