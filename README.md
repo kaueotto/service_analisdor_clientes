@@ -5,7 +5,7 @@
   Este projeto é aplicável a qualquer negócio que envolva a emissão de pedidos por clientes e que exija uma análise de crédito robusta. O nível de assertividade da IA dependerá diretamente da qualidade e da origem dos dados fornecidos pela empresa solicitante. Para avaliar a eficiência do projeto, utilizamos uma base de dados real e aplicamos o modelo dentro de uma empresa.
   
 # Escopo
-
+**1. Cadastro Usuario**
 # Tecnologias
 
 # Requisitos
