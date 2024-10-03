@@ -28,6 +28,7 @@ Para o desenvolvimento do projeto, foram utilizadas as seguintes tecnologias:
   * **Linguagem:** Python 3.11+
   * **Banco de Dados:** SqlServer
   * **Mensageria:** Kafka
+  * **Containerização:** Docker
     
 Bibliotecas e FrameWorks
   * Flask
