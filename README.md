@@ -38,28 +38,35 @@ Bibliotecas e FrameWorks
   * ConfigParser
   * Kafka
 
-# Requisitos Funcionais
-  **Rf1: Gerenciamento de pré-cadastro**
-    a) O sistema deve permitir que uma empresa crie um pré-cadastro, fornecendo informações básicas como nome, email;
-    b) Após o pré-cadastro, o sistema deve gerar um token JWT único para a empresa;
-    c) O token JWT deve ser utilizado para autenticar todas as requisições feitas pela empresa;
-  **Rf2: Envio de Dataset para Treinamento**
-    a) O sistema deve permitir que a empresa envie um dataset com as informações de análise de crédito/cliente via end-point;
-    b) O dataset deve conter informações necessários para treinar um modelo de IA que avalie as condições de crédito do cliente;
-    c) O sistema deve validar a estrutura e a integridade dos dados enviados antes de iniciar o treinamento do modelo;
-  **Rf3: Treinamento do Modelo de IA**
-    a) O sistema deve usar o dataset fornecido para treinar um modelo de IA para a empresa solicitante;
-    b) O sistema deve armazenar o modelo treinado associado a empresa que o solicitou;
-  **Rf4: Processamento de Pedidos Novos**
-    a) O sistema deve permitir que a empresa envie pedidos novos via um end-point, utilizando o token JWT para autenticação;
-    b) O modelo de IA deve processar o pedido e retornar uma decisão sobre a liberação ou não do pedido para o faturamento;
-    c) A decisão deve ser acompanhada por uma explicação do motivo, com base nas condições analisadas pelo modelo;
-  **Rf5: Retreinamento do Modelo**
-    a) O sistema deve permitir que a empresa solicite o retreinamento do modelo de IA a qualquer momento, enviando um novo dataset;
-    b) O retreinamento gera um novo registro assim mantendo mais de um modelo disponivel pela empresa, caso ela queira realizar novos testes;
-  **Rf6: Auditoria e Log de Atividades**
-    a) O sistema deve registrar todas as atividades relacionadas a envios de datasets, treinamentos de modelo e processamento de pedidos.
-    b) O log deve ser acessivel para a empresa consultar as atividades realizadas;
+# Requisitos Funcionais  
+
+### **RF01: Gerenciamento de Pré-Cadastro**  
+- O sistema deve permitir que uma empresa realize um pré-cadastro, fornecendo informações básicas como nome e email.  
+- Após o pré-cadastro, o sistema deve gerar um token JWT exclusivo para a empresa.  
+- Esse token JWT será utilizado para autenticar todas as requisições realizadas pela empresa.  
+
+### **RF02: Envio de Dataset para Treinamento**  
+- O sistema deve permitir que a empresa envie um dataset contendo informações de análise de crédito/cliente via endpoint dedicado.  
+- O dataset deve incluir os dados necessários para treinar um modelo de IA capaz de avaliar as condições de crédito do cliente.  
+- O sistema deve validar a estrutura e integridade dos dados recebidos antes de iniciar o treinamento do modelo.  
+
+### **RF03: Treinamento do Modelo de IA**  
+- O sistema deve utilizar o dataset fornecido para treinar um modelo de IA personalizado para a empresa solicitante.  
+- O modelo treinado deve ser armazenado e associado à empresa que o solicitou.  
+
+### **RF04: Processamento de Novos Pedidos**  
+- O sistema deve permitir que a empresa envie novos pedidos por meio de um endpoint, utilizando o token JWT para autenticação.  
+- O modelo de IA deve processar o pedido e retornar uma decisão sobre a aprovação ou não do pedido para faturamento.  
+- A resposta deve incluir uma justificativa com base nas condições analisadas pelo modelo.  
+
+### **RF05: Retreinamento do Modelo de IA**  
+- O sistema deve permitir que a empresa solicite o retreinamento do modelo de IA a qualquer momento, enviando um novo dataset.  
+- O retreinamento deve gerar um novo modelo, mantendo versões anteriores disponíveis para a empresa realizar comparações ou testes.  
+
+### **RF06: Auditoria e Log de Atividades**  
+- O sistema deve registrar todas as atividades relacionadas ao envio de datasets, treinamentos de modelo e processamento de pedidos.  
+- O log deve estar acessível para a empresa consultar e monitorar as atividades realizadas.  
+
 # Requisitos não Funcionais
 
 # Arquitetura
