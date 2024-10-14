@@ -67,7 +67,23 @@ Bibliotecas e FrameWorks
 - O sistema deve registrar todas as atividades relacionadas ao envio de datasets, treinamentos de modelo e processamento de pedidos.  
 - O log deve estar acessível para a empresa consultar e monitorar as atividades realizadas.  
 
-# Requisitos não Funcionais
+# Requisitos não Funcionais  
+
+### **RNF01: Segurança**  
+- O sistema deve garantir a segurança dos dados através da autenticação baseada em JWT para acesso aos end-points.  
+
+### **RNF02: Escalabilidade**  
+- O sistema deve ser capaz de escalar horizontalmente para suportar um número crescente de empresas e pedidos simultâneos
+- O sistema deve ser capaz de lidar com grandes volumes de dados para treinamento de modelos sem comprometer o desempenho.
+
+### **RNF03: Performance**  
+- O processamento de pedidos novos deve ocorrer em tempo real ou near real-time, com latência mínima.
+- O tempo de resposta para a decisão de crédito deve ser rápido o suficiente para não prejudicar a experiência do cliente final.
+
+### **RNF04: Manutenibilidade**  
+- O sistema deve ser projetado para facilitar a manutenção e atualizações, com código modular e bem documentado.
+- Deve haver suporte para logs detalhados e monitoramento, permitindo a identificação e correção rápida de problemas.
+
 
 # Arquitetura
 
