@@ -84,26 +84,24 @@ Bibliotecas e FrameWorks
 - O sistema deve ser projetado para facilitar a manutenção e atualizações, com código modular e bem documentado.
 - Deve haver suporte para logs detalhados e monitoramento, permitindo a identificação e correção rápida de problemas.
 
+```mermaid
+graph TD;
+    RF01[Gerenciamento de Pré-Cadastro] --> JWT[Gerar token JWT para autenticação]
+    JWT --> RF02[Envio de Dataset para Treinamento]
+    JWT --> RF04[Processamento de Novos Pedidos]
+    RF02 --> Validar[Validar estrutura e integridade dos dados]
+    RF02 --> RF05[Retreinamento do Modelo de IA]
+    Validar --> RF03[Treinamento do Modelo de IA]
+    RF03 --> Armazenar[Armazenar modelo treinado]
+    RF05 --> RF03
+    RF06[Auditoria e Log de Atividades] --> RF03
+    RF06 --> RF02
+    RF06 --> RF04
+    RF04 --> Retorno[Retornar decisão de aprovação/rejeição]
+```
+
 
 # Arquitetura
 
-```mermaid
-flowchart TD
-    Start --> Producer
-    Producer --> Camada_Seguranca
-    Camada_Seguranca --> Send_Messages
-    
-    Send_Messages --> Topic_Processamento
-    Send_Messages --> Topic_Cadastros
-    
-    Topic_Processamento --> Microservice_Processamento
-    Microservice_Processamento --> Processamento_Data
-    Processamento_Data --> End_Processamento
-    End_Processamento --> End
-    
-    Topic_Cadastros --> Microservice_Cadastros
-    Microservice_Cadastros --> Process_Cadastros
-    Process_Cadastros --> End_Cadastros_Process
-    End_Cadastros_Process --> End
 
 
