@@ -7,13 +7,19 @@ from security import security
 from threading import Thread
 from controller import consumer_cadastros
 
+from controller import consumer_cadastros
+
+
+
+# a = consumer_cadastros.training_model.treinar_modelo_randomForest(5)
+# print(a)
 app = Flask(__name__)
 
 @app.route('/cadastro/modelos',methods=['POST'])
 def cadastro_modelos():
     token = None
     if 'Authorization' in request.headers:
-        token = request.headers['Authorization'].split(" ")[1]
+        token = request.headers['Authorization']
     if not token:
         return jsonify({'message': 'Token é necessário!'}),401
     decoded_token = security.verify_token(token)

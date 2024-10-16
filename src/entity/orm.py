@@ -38,3 +38,6 @@ class QueryHelper:
             self.session.delete(registro)
             self.session.commit()
         return registro
+    
+    def buscar_lista(self, model_class, **filtros):
+        return self.session.query(model_class).filter_by(**filtros).all()
