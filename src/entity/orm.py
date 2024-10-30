@@ -33,11 +33,11 @@ class QueryHelper:
         return registro
 
     def deletar_registro(self, model_class, **filtros):
-        registro = self.session.query(model_class).filter_by(**filtros).first()
-        if registro:
-            self.session.delete(registro)
+        registros = self.session.query(model_class).filter_by(**filtros)
+        if registros.count() > 0:
+            registros.delete(synchronize_session='fetch')
             self.session.commit()
-        return registro
+        return f'Registros {registros.count()} deletados com sucesso'
     
     def buscar_lista(self, model_class, **filtros):
         return self.session.query(model_class).filter_by(**filtros).all()

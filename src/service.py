@@ -7,32 +7,31 @@ from security import security
 from threading import Thread
 from controller import consumer_cadastros
 
-from controller import consumer_cadastros
-
-
-
-# a = consumer_cadastros.training_model.treinar_modelo_randomForest(5)
-# print(a)
 app = Flask(__name__)
 
-@app.route('/cadastro/modelos',methods=['POST'])
+@app.route('/cadastro/modelos', methods=['POST'])
 def cadastro_modelos():
     token = None
     if 'Authorization' in request.headers:
         token = request.headers['Authorization']
     if not token:
-        return jsonify({'message': 'Token é necessário!'}),401
-    decoded_token = security.verify_token(token)
-    if decoded_token: 
-        dados = request.get_json()
-        novo_json = {'tipo': 'dados_treinamento','dados': dados}
-        kafka_controller = kafka.KafkaAdapter()
-        kafka_controller.produzir_mensagem(
-             json.dumps(novo_json).encode('utf-8'),
-             'novo_cadastro',
-             'topico-cadastros',
-        )
-        return jsonify({'mensagem': 'Mensagem Inserida'}), 200
+        return jsonify({'message': 'Token é necessário!'}), 401
+    cli_valido, dto = security.verify_token(token)
+    if not cli_valido:
+        return jsonify({'message': 'Token inválido ou usuário não autorizado!'}), 403
+    dados = request.get_json()
+    if not dados:
+        return jsonify({'message': 'Dados do modelo são necessários!'}), 400
+    
+    novo_json = {'tipo': 'dados_treinamento', 'dados': dados, 'context': dto.to_dict()}
+    kafka_controller = kafka.KafkaAdapter()
+    kafka_controller.produzir_mensagem(
+        json.dumps(novo_json).encode('utf-8'),
+        'novo_cadastro',
+        'topico-cadastros',
+    )
+    return jsonify({'mensagem': 'Mensagem Inserida'}), 200
+
     
 @app.route('/cadastro/cliente', methods=['POST'])
 def cadastros():

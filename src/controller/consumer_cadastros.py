@@ -1,5 +1,6 @@
 from adapter.kafka import KafkaAdapter
-from entity import cliente, dados_modelos
+from entity.dto import dto_cliente
+from entity import cliente,dados_modelos
 from controller import training_model
 import json
 import threading
@@ -9,7 +10,6 @@ def consumer_cadastros():
     try:
         while True:
             mensagems = adapter.consumir_mensagem('grupo-cadastros', 'topico-cadastros')
-            print('mensagems: ', mensagems)
             if mensagems is None:
                 print("Mensagem vazia ou não recebida")
                 continue
@@ -18,20 +18,22 @@ def consumer_cadastros():
                     for message in messages:
                         try:
                             dados = json.loads(message.value)
+                            context = dados.get('context', {})
+                            dtoCliente = dto_cliente.dto_cliente(
+                                CliId=context.get('CliId')
+                            ) 
                             match dados.get('tipo'):
                                 case 'cadastro':
                                     cli = cliente.Cliente.new_cliente(dados.get('clinome'), dados.get('cliemail'))
                                     print(f"Cliente cadastrado: {cli}")
                                 case 'dados_treinamento':
                                     for dado in dados['dados']:
-                                        dados_mod = dados_modelos.Dados_modelos.new_dados_modelos(5, **dado)
-                                        print(dados_mod)
+                                        dados_mod = dados_modelos.Dados_modelos.new_dados_modelos(dtoCliente.CliId, **dado)
                                         if dado['end_json'] == 1:
                                             threadtreinamento = threading.Thread(
-                                                target=training_model.treinar_modelo_randomForest, args=(5,)
+                                                target=training_model.treinar_modelo_randomForest, args=(dtoCliente.CliId,)
                                             )
                                             threadtreinamento.start()
-                                            threadtreinamento.join()
                         except ValueError as ve:
                             print(f"Erro: {ve}")
                         except Exception as e:

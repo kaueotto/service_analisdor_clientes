@@ -48,12 +48,20 @@ class Dados_modelos(Base):
 
     @classmethod
     def new_dados_modelos(cls,Id,**filtros):
-        
         QH = orm.QueryHelper()
-
         try:
             QH.inserir_registro(cls,cliid=Id,**filtros)
             return "Novo registro adicionado com sucesso."
         except Exception as e:
             print(f"Erro ao adicionar dados_modelos: {e}")
+            raise
+
+    @classmethod
+    def delete_dados_modelos(cls,Id):
+        QH = orm.QueryHelper()
+        try:
+            QH.deletar_registro(cls,cliid=Id)
+            return "Registros deletados com sucesso."
+        except Exception as e:
+            print(f"Erro ao deletar dados_modelos: {e}")
             raise

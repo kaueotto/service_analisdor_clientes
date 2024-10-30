@@ -36,3 +36,15 @@ class Cliente(Base):
         except Exception as e:
             print(f"Erro ao adicionar cliente: {e}")
             raise
+
+    @classmethod
+    def valida_cliente(cls,cliId) -> bool:
+        QH = orm.QueryHelper()
+
+        try:
+            a = QH.buscar_por_atributo(cls,cliId=cliId,CliDataExclusao=None)
+            print(a)
+            return True
+        except Exception as e:
+            print(f"Erro ao validar usuario: {e}")
+            return False

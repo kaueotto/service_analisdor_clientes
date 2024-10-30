@@ -1,9 +1,10 @@
 import pandas as pd
-from entity import orm, dados_modelos
+import pickle
+from entity import orm, dados_modelos, modelos
 from entity.dto.dto_dados_modelo import dto_dados_modelo
-import seaborn as sns
-import matplotlib.pyplot as plt
-
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 def montar_dataframe(lista):
     dados_lista = []
@@ -47,12 +48,36 @@ def montar_dataframe(lista):
     return df
 
 def treinar_modelo_randomForest(idcliente):
-    QH = orm.QueryHelper()
-    lista = QH.buscar_lista(dados_modelos.Dados_modelos, cliid=idcliente)
-    df = montar_dataframe(lista)
-    df['status'] = df['status'].map({'bloqueado': 0, 'liberado': 1})
-    df = df.fillna(0)
-    df = df.drop(columns=['id','cliid','IdCliente'])
-    
+    try:
+        QH = orm.QueryHelper()
+        lista = QH.buscar_lista(dados_modelos.Dados_modelos, cliid=idcliente)
+        df = montar_dataframe(lista)
+        df['status'] = df['status'].map({'bloqueado': 0, 'liberado': 1})
+        df = df.fillna(0)
+        df = df.drop(columns=['id', 'cliid', 'IdCliente'])
+        
+        X = df.drop('status', axis=1)
+        y = df['status']
 
-    return 'Modelo treinado'
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+        model = RandomForestClassifier(n_estimators=100, random_state=42)
+        model.fit(X_train, y_train)
+        
+        print('Modelo treinado com sucesso!')
+
+        y_pred = model.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        conf_matrix = confusion_matrix(y_test, y_pred)
+
+        print(f'Acurácia: {accuracy * 100:.2f}%')
+        print('Matriz de Confusão:')
+        print(conf_matrix)
+
+        modelo_serializado = pickle.dumps(model)
+        retorno = modelos.Modelos.new_modelo(cliid=idcliente, modelo=modelo_serializado)
+        print(retorno)
+        retorno = dados_modelos.Dados_modelos.delete_dados_modelos(idcliente)
+        print(retorno)
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")

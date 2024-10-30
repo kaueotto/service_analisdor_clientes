@@ -1,18 +1,27 @@
 import jwt
 
 from config import configs
-
+from entity import cliente,orm
+from entity.dto import dto_cliente
 
 def create_token(data) -> str:
     payload = {'    ': data}
-    print(payload)
-    print(configs.TOKEN)
     token = jwt.encode(payload, configs.TOKEN, algorithm='HS256')
     return token
 
-def verify_token(token) -> str:
+def verify_token(token) -> bool:
     try:
-        decoded_token = jwt.decode(token, configs.TOKEN, algorithms='HS256')
-        return decoded_token
+        QH = orm.QueryHelper()
+        cli = QH.buscar_por_atributo(cliente.Cliente,CliToken=token)
+        if cli:
+            dto = dto_cliente.dto_cliente(CliId = cli.CliId, CliNome = cli.CliNome,
+                            CliEmail = cli.CliEmail, CliDataInclusao = cli.CliDataInclusao,
+                            CliDataExclusao = cli.CliDataExclusao, CliToken = cli.CliToken)
+            if dto.CliDataExclusao is None:
+                return True,dto
+            else:
+                return False,''
+        else:
+            return False,''
     except jwt.InvalidTokenError:
         return 'Token inválido!'
