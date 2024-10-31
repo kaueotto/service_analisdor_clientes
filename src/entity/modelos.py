@@ -22,11 +22,16 @@ class Modelos(Base):
     def new_modelo(cls,cliid,modelo):
         QH = orm.QueryHelper()
         try:
+            filtros = {"ModCliId":cliid,"ModAtivo":True}
+            novos_dados = {"ModAtivo":False}
+            QH.alterar_registros(cls,filtros,**novos_dados)
             QH.inserir_registro(cls,ModCliId=cliid,ModTreinado=modelo)
             return 'Modelo inserido com sucesso!'
         except Exception as e:
             print(f"Erro ao adicionar cliente: {e}")
             raise
+    
+    
 
     
 

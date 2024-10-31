@@ -9,6 +9,7 @@ def consumer_cadastros():
     adapter = KafkaAdapter()
     try:
         while True:
+            # topico-fila-processamento
             mensagems = adapter.consumir_mensagem('grupo-cadastros', 'topico-cadastros')
             if mensagems is None:
                 print("Mensagem vazia ou não recebida")

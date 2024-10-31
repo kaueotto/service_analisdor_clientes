@@ -32,6 +32,17 @@ class QueryHelper:
             self.session.commit()
         return registro
 
+    def alterar_registros(self, model_class, filtros, **novos_dados):
+        try:
+            registros = self.session.query(model_class).filter_by(**filtros)
+            registros.update(novos_dados, synchronize_session="fetch")
+            self.session.commit()
+            return registros.all()
+        except Exception as e:
+            self.session.rollback()
+            print(f"Erro ao atualizar registros: {e}")
+            return None
+
     def deletar_registro(self, model_class, **filtros):
         registros = self.session.query(model_class).filter_by(**filtros)
         if registros.count() > 0:
