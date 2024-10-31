@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request
 from adapter import kafka
 from security import security
 from threading import Thread
-from controller import consumer_cadastros,consumer_fila_pedidos
+from controller import consumer_cadastros,consumer_fila_pedidos,processamento_pedidos
 
 app = Flask(__name__)
 
@@ -71,11 +71,14 @@ if __name__ == '__main__':
     flask_thread = Thread(target = app.run, kwargs={'host': 'localhost','port': '8081'})
     consumer_cadastros_thread = Thread(target=consumer_cadastros.consumer_cadastros)
     consumer_fila_pedidos_thread = Thread(target=consumer_fila_pedidos.consumer_fila_pedidos)
+    processamento_pedidos_thread = Thread(target=processamento_pedidos.processa_fila_pedidos)
 
     flask_thread.start()
     consumer_cadastros_thread.start()
     consumer_fila_pedidos_thread.start()
+    processamento_pedidos_thread.start()
 
     flask_thread.join()
     consumer_cadastros_thread.join()
     consumer_fila_pedidos_thread.join()
+    processamento_pedidos_thread.join()

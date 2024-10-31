@@ -22,8 +22,7 @@ def consumer_fila_pedidos():
                             ) 
                             match dados.get('tipo'):
                                 case 'pedido':
-                                      a = fila.Fila.new_pedido_fila(dtoCliente.CliId,dados)
-                                      print(a)
+                                      fila.Fila.new_pedido_fila(dtoCliente.CliId,dados)
                         except Exception as e:
                             print(f'Erro Inesperado {e}')
             except Exception as e:

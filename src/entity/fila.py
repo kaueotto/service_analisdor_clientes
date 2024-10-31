@@ -16,7 +16,7 @@ class Fila(Base):
     FilaDataInclusao = Column(DateTime, default=datetime.utcnow, nullable=False)
     FilaDataEnvioCliente = Column(DateTime, nullable=True)
     FilaResultado = Column(String(255), nullable=True)
-    FilaMotivoResultado = Column(String(255), nullable=True)
+    FilaMotivoResultado = Column(Text, nullable=True)
 
     @classmethod
     def new_pedido_fila(cls, cliid, dados):
