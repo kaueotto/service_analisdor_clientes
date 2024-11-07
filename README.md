@@ -19,9 +19,10 @@ Não é um endpoint, é um processo disparado quando o envio de todas as informa
 o serviço so é responsavel por obter as informações validar e gerar um modelo treinado.
 
 #### **4. Teste com o Modelo**  
-
+Após a criação do modelo e disponibilizado para o usuario a precisão do modelo gerado e a matriz de confusão para o mesmo analisar as previsões dos dados
 
 #### **5. Utilização do modelo para predição de pedidos**  
+Após a validação do modelo treinado ele e disponibilizado para o usuario enviar seus pedidos para a analise, no qual o end-point responsável busca o modelo ativo, processa o pedido e retorna para o usuario aprovado/reprovado e as condições que o modelo levou em consideração para a tomada da decisão.
 
 ## **Tecnologias**  
 Para o desenvolvimento do projeto, foram utilizadas as seguintes tecnologias:
