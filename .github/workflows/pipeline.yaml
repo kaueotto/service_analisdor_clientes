@@ -6,10 +6,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      -name: Copia os arquivos do rep
+      - name: Copia os arquivos do rep
       uses: actions/checkout@v3
       
-      -name: Instalar Python
+      - name: Instalar Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
