@@ -21,5 +21,8 @@ jobs:
       - name: Instalar Dependencias
         run: poetry install
 
+      - name: Conceder permissão de execução ao serviço
+        run: chmod +x ./src/service.py
+
       - name: Rodar Aplicação
         run: poetry run ./src/service.py
