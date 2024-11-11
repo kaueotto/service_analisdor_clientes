@@ -1,15 +1,16 @@
 name: Pipeline
-on: [push,pull_request]
+
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Copia os arquivos do rep
-      uses: actions/checkout@v3
-      
-      - name: Instalar Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
