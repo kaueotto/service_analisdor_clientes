@@ -85,24 +85,13 @@ Bibliotecas e FrameWorks
 - O sistema deve ser projetado para facilitar a manutenção e atualizações, com código modular e bem documentado.
 - Deve haver suporte para logs detalhados e monitoramento, permitindo a identificação e correção rápida de problemas.
 
-```mermaid
-graph TD;
-    RF01[Gerenciamento de Pré-Cadastro] --> JWT[Gerar token JWT para autenticação]
-    JWT --> RF02[Envio de Dataset para Treinamento]
-    JWT --> RF04[Processamento de Novos Pedidos]
-    RF02 --> Validar[Validar estrutura e integridade dos dados]
-    RF02 --> RF05[Retreinamento do Modelo de IA]
-    Validar --> RF03[Treinamento do Modelo de IA]
-    RF03 --> Armazenar[Armazenar modelo treinado]
-    RF05 --> RF03
-    RF06[Auditoria e Log de Atividades] --> RF03
-    RF06 --> RF02
-    RF06 --> RF04
-    RF04 --> Retorno[Retornar decisão de aprovação/rejeição]
-```
+### [Arquitetura](https://github.com/kaueotto/service_analisdor_clientes/blob/master/docs/Arquitetura.png)
+### [Diagrama de Classes](https://github.com/kaueotto/service_analisdor_clientes/blob/master/docs/Diagrama%20de%20classe.png)  
 
+# Metodologia de desenvolvimento  
 
-# Arquitetura
+- Utilizei a metodologia Kanban através da ferramenta [trello](https://trello.com/b/s3Kvp0Zz/tcc) no qual separei 4 colunas sendo elas:backlog, a fazer, fazendo e concluido onde organizei meu desenvolvimento semanalmente.
+
 
 
 
