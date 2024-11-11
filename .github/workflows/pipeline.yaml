@@ -25,4 +25,4 @@ jobs:
         run: chmod +x ./src/service.py
 
       - name: Rodar Aplicação
-        run: sudo poetry run src/service.py
+        run: echo $(ls)
