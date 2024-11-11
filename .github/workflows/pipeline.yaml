@@ -17,4 +17,4 @@ jobs:
       - name: Instalar Poetry
         run: pip install poetry
       - name: Instalar Dependencias
-        run: poetry install'
+        run: poetry install
