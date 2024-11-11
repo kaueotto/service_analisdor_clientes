@@ -14,7 +14,12 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
       - name: Instalar Poetry
         run: pip install poetry
+
       - name: Instalar Dependencias
         run: poetry install
+
+      - name: Rodar Aplicação
+        run: poetry run ./src/service.py
