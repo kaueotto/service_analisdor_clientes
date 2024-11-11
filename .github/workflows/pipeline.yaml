@@ -22,7 +22,7 @@ jobs:
         run: poetry install
 
       - name: Conceder permissão de execução ao serviço
-        run: chmod +x ./src/service.py
+        run: chmod +x src/service.py
 
       - name: Rodar Aplicação
-        run: echo $(ls)
+        run: poetry run src/service.py
