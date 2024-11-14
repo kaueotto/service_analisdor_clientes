@@ -1,3 +1,32 @@
+# name: Pipeline
+
+# on: [push, pull_request]
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout do código
+#         uses: actions/checkout@v3
+
+#       - name: Configurar Python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: '3.11'
+
+#       - name: Instalar Poetry
+#         run: pip install poetry
+
+#       - name: Instalar Dependencias
+#         run: poetry install
+
+#       - name: Conceder permissão de execução ao serviço
+#         run: chmod +x src/service.py
+
+#       - name: Rodar Aplicação 
+#         run: poetry run ./src/service.py
+
 name: Pipeline
 
 on: [push, pull_request]
@@ -10,6 +39,35 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Configurar Docker Compose
+        run: |
+          echo "version: '3.8'
+          services:
+            zookeeper:
+              image: confluentinc/cp-zookeeper:latest
+              environment:
+                ZOOKEEPER_CLIENT_PORT: 2181
+                ZOOKEEPER_TICK_TIME: 2000
+              ports:
+                - '2181:2181'
+
+            kafka:
+              image: confluentinc/cp-kafka:latest
+              depends_on:
+                - zookeeper
+              ports:
+                - '9092:9092'
+              environment:
+                KAFKA_BROKER_ID: 1
+                KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+                KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+                KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+                KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+                KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1" > docker-compose.yml
+
+      - name: Subir containers com Kafka e Zookeeper
+        run: docker-compose up -d
+
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
@@ -18,11 +76,16 @@ jobs:
       - name: Instalar Poetry
         run: pip install poetry
 
-      - name: Instalar Dependencias
+      - name: Instalar Dependências
         run: poetry install
 
       - name: Conceder permissão de execução ao serviço
         run: chmod +x src/service.py
 
-      - name: Rodar Aplicação 
+      - name: Rodar Aplicação
+        env:
+          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
         run: poetry run ./src/service.py
+
+      - name: Finalizar Containers
+        run: docker-compose down
