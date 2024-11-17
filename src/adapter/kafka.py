@@ -1,9 +1,6 @@
 from kafka import KafkaConsumer, KafkaProducer
 
 from config import configs
-import json
-
-import time
 
 class KafkaAdapter:
     def __init__(self):

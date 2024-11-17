@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import Column, Integer, String
 
 from sqlalchemy import Integer, String, Float, Boolean, Column
 from entity.orm import Base

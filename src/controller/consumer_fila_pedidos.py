@@ -1,6 +1,6 @@
 from adapter.kafka import KafkaAdapter
 from entity.dto import dto_cliente
-from entity import cliente,fila
+from entity import fila
 import json
 
 def consumer_fila_pedidos():

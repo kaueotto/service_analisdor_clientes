@@ -6,8 +6,6 @@ from config import configs
 
 Base = declarative_base()
 
-from sqlalchemy.orm import Session
-
 class QueryHelper:
     def __init__(self):
         connection_string = f'mssql+pyodbc://{configs.SERVER}/{configs.DATABASE}?driver={configs.DRIVER}&trusted_connection=yes'

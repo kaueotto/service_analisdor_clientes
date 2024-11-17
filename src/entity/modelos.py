@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary
-from sqlalchemy.orm import relationship
 
 from entity.orm import Base
 from entity import orm
@@ -15,9 +14,6 @@ class Modelos(Base):
     ModAtivo = Column(Boolean, default=True, nullable=False)
     ModDataInclusao = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-   # cliente = relationship('Cliente', back_populates='modelos')
-   # filas = relationship('Fila', back_populates='modelo')
-    
     @classmethod
     def new_modelo(cls,cliid,modelo):
         QH = orm.QueryHelper()

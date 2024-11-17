@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Integer, String
-from sqlalchemy.orm import relationship
 
 from entity.orm import Base
 from entity import orm
@@ -17,9 +16,6 @@ class Cliente(Base):
     CliDataInclusao = Column(DateTime, default=datetime.utcnow, nullable=False)
     CliDataExclusao = Column(DateTime, nullable=True)
     CliToken = Column(String(255), nullable=False)
-
-    #modelos = relationship('Modelos', back_populates='cliente')
-    #filas = relationship('Fila', back_populates='cliente')
 
     @classmethod
     def new_cliente(cls, name: str, email: str) -> str:
