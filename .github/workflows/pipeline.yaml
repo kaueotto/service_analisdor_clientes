@@ -27,13 +27,8 @@ jobs:
       - name: Login Docker Hub
         run: echo "${{ secrets.PASSWD_DOCKER }}" | docker login -u "${{ secrets.USR_DOCKER }}" --password-stdin
 
-        
-      #  - name: Rodar Aplicação 
-        #  run: poetry run ./src/service.py
+      - name: Build da imagem
+        run: docker build -t ${{ secrets.USR_DOCKER }}/tcc:"$(cat docker-settings.json | jq -r .version)" .
 
-
-        # - name: Build da imagem
-        # run: docker build -t ${{ secrets.USR_DOCKER }}/tccprivado:"$(cat docker-settings.json | jq -r .version)" .
-
-        # - name: Enviando imagem ao Docker Hub
-        # run: docker push ${{ secrets.USR_DOCKER }}/tccprivado:"$(cat docker-settings.json | jq -r .version)"
+      - name: Enviando imagem ao Docker Hub
+        run: docker push ${{ secrets.USR_DOCKER }}/tcc:"$(cat docker-settings.json | jq -r .version)"
