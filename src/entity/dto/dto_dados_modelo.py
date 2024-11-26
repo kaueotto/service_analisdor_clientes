@@ -6,6 +6,7 @@ class dto_dados_modelo():
                  status=None, 
                  CliLimCredTot=None, 
                  clisimples=None, 
+                 pedid=None,
                  cliMicroEmpreendedor=None, 
                  CliConsFinal=None, 
                  HistPagPONTUAL=None, 
@@ -38,6 +39,7 @@ class dto_dados_modelo():
         self.cliid = cliid
         self.IdCliente = IdCliente
         self.status = status
+        self.pedid = pedid
         self.CliLimCredTot = CliLimCredTot
         self.clisimples = clisimples
         self.cliMicroEmpreendedor = cliMicroEmpreendedor

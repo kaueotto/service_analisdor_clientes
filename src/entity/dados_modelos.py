@@ -12,6 +12,7 @@ class Dados_modelos(Base):
     cliid = Column(Integer, nullable=False)
     IdCliente = Column(Integer, nullable=False)
     status = Column(String(20), nullable=False)
+    pedid = Column(Integer, nullable=False)
     CliLimCredTot = Column(Float, nullable=True)
     clisimples = Column(Integer, nullable=True)
     cliMicroEmpreendedor = Column(Integer, nullable=True)

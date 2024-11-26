@@ -15,6 +15,8 @@ pyjwt = "^2.9.0"
 lime = "^0.2.0.1"
 kafka-python = "^2.0.2"
 pandas = "^2.2.3"
+flask-cors = "^5.0.0"
+pytest = "^8.3.3"
 
 
 [build-system]

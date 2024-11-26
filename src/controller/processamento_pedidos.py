@@ -72,6 +72,7 @@ def processa_fila_pedidos():
                     fila.Fila, 
                     {'FilaId': fila_dto.FilaId}, 
                     FilaResultado=previsao, 
+                    
                     FilaMotivoResultado=json.dumps(dict(explicacao))  # Converte para JSON
                 )
                 

@@ -11,8 +11,10 @@ class dto_fila:
                 FilaDataInclusao = None,
                 FilaDataEnvioCliente = None,
                 FilaResultado = None,
+                FilaChaveExterna = None,
                 FilaMotivoResultado = None):
         self.FilaId = FilaId
+        self.FilaChaveExterna = FilaChaveExterna
         self.FilaInfoSacado = FilaInfoSacado
         self.FilaCliId = FilaCliId
         self.FilaModId = FilaModId
@@ -32,7 +34,8 @@ class dto_fila:
             FilaDataInclusao = model_instance.FilaDataInclusao,
             FilaDataEnvioCliente = model_instance.FilaDataEnvioCliente,
             FilaResultado = model_instance.FilaResultado,
-            FilaMotivoResultado = model_instance.FilaMotivoResultado
+            FilaMotivoResultado = model_instance.FilaMotivoResultado,
+            FilaChaveExterna = model_instance.FilaChaveExterna
         )    
 
     

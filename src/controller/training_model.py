@@ -14,6 +14,7 @@ def montar_dataframe(lista):
             cliid=dado.cliid,
             IdCliente=dado.IdCliente,
             status=dado.status,
+            pedid=dado.pedid,
             CliLimCredTot=dado.CliLimCredTot,
             clisimples=dado.clisimples,
             cliMicroEmpreendedor=dado.cliMicroEmpreendedor,
@@ -54,7 +55,7 @@ def treinar_modelo_randomForest(idcliente):
         df = montar_dataframe(lista)
         df['status'] = df['status'].map({'bloqueado': 0, 'liberado': 1})
         df = df.fillna(0)
-        df = df.drop(columns=['id', 'cliid', 'IdCliente'])
+        df = df.drop(columns=['id', 'cliid', 'IdCliente','pedid'])
         
         X = df.drop('status', axis=1)
         y = df['status']

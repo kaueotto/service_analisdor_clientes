@@ -2,13 +2,14 @@
 import json
 
 from flask import Flask, jsonify, request
-
+from flask_cors import CORS 
 from adapter import kafka
 from security import security
 from threading import Thread
 from controller import consumer_cadastros,consumer_fila_pedidos,processamento_pedidos
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/cadastro/modelos', methods=['POST'])
 def cadastro_modelos():
@@ -51,6 +52,7 @@ def fila_pedidos():
     token = None
     if 'Authorization' in request.headers:
         token = request.headers['Authorization']
+
     if not token:
         return jsonify({'message': 'Token é necessário!'}), 401
     cli_valido, dto = security.verify_token(token)
@@ -67,6 +69,23 @@ def fila_pedidos():
         'topico-fila-processamento',
     )
     return jsonify({'mensagem': 'Mensagem Inserida'}), 200
+
+@app.route('/fila/pedidos/resultado',methods=['POST'])
+def buscar_resultado():
+    from src.entity import fila 
+    token = None
+    if 'Authorization' in request.headers:
+        token = request.headers['Authorization']
+    if not token:
+        return jsonify({'message': 'Token é necessário!'}), 401
+    cli_valido, dto = security.verify_token(token)
+    if not cli_valido:
+        return jsonify({'message': 'Token inválido ou usuário não autorizado!'}), 403
+    dados = request.get_json()
+    resultado,motivo = fila.Fila.buscar_resultado(dados['pedid'])
+    
+    return jsonify({'resultado':resultado,'motivo':motivo}),200
+
 
 if __name__ == '__main__':
     flask_thread = Thread(target = app.run, kwargs={'host': 'localhost','port': '8081'})
