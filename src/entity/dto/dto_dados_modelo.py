@@ -1,40 +1,41 @@
-class dto_dados_modelo():
-    def __init__(self, 
-                 id=None,   
-                 cliid=None, 
-                 IdCliente=None, 
-                 status=None, 
-                 CliLimCredTot=None, 
-                 clisimples=None, 
-                 pedid=None,
-                 cliMicroEmpreendedor=None, 
-                 CliConsFinal=None, 
-                 HistPagPONTUAL=None, 
-                 HistPagAVISTA=None, 
-                 HistPag8_15=None,   
-                 HistPag16_30=None,   
-                 HistPag31_60=None,   
-                 HistPag_60=None,   
-                 QtConsultado=None,   
-                 RelaFornec0_6Meses=None, 
-                 RelaFornec6Mes_1Ano=None, 
-                 RelaFornec1_3Anos=None, 
-                 RelaFornec3_5Anos=None, 
-                 RelaFornec5_10Anos=None, 
-                 RelaFornec10Anos=None, 
-                 RelaFornecINAT=None, 
-                 PefinNumOcorrencia=None, 
-                 PefinValorTotal=None,   
-                 RefinNumOcorrencia=None, 
-                 RefinValorTotal=None, 
-                 DividasVencNumOcorrencia=None, 
-                 DividasVencValorTotal=None, 
-                 FalenConcNumOcorrencia=None, 
-                 CheqSFundoNumOcorrencia=None, 
-                 RechequeNumOcorrencia=None, 
-                 PartFalenNumOcorrencia=None):
-        
-        # Inicializando os atributos
+class dto_dados_modelo:
+    def __init__(
+        self,
+        id=None,
+        cliid=None,
+        IdCliente=None,
+        status=None,
+        CliLimCredTot=None,
+        clisimples=None,
+        pedid=None,
+        cliMicroEmpreendedor=None,
+        CliConsFinal=None,
+        HistPagPONTUAL=None,
+        HistPagAVISTA=None,
+        HistPag8_15=None,
+        HistPag16_30=None,
+        HistPag31_60=None,
+        HistPag_60=None,
+        QtConsultado=None,
+        RelaFornec0_6Meses=None,
+        RelaFornec6Mes_1Ano=None,
+        RelaFornec1_3Anos=None,
+        RelaFornec3_5Anos=None,
+        RelaFornec5_10Anos=None,
+        RelaFornec10Anos=None,
+        RelaFornecINAT=None,
+        PefinNumOcorrencia=None,
+        PefinValorTotal=None,
+        RefinNumOcorrencia=None,
+        RefinValorTotal=None,
+        DividasVencNumOcorrencia=None,
+        DividasVencValorTotal=None,
+        FalenConcNumOcorrencia=None,
+        CheqSFundoNumOcorrencia=None,
+        RechequeNumOcorrencia=None,
+        PartFalenNumOcorrencia=None,
+    ):
+
         self.id = id
         self.cliid = cliid
         self.IdCliente = IdCliente
@@ -68,4 +69,3 @@ class dto_dados_modelo():
         self.CheqSFundoNumOcorrencia = CheqSFundoNumOcorrencia
         self.RechequeNumOcorrencia = RechequeNumOcorrencia
         self.PartFalenNumOcorrencia = PartFalenNumOcorrencia
-

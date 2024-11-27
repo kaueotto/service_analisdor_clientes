@@ -1,9 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Boolean, Column, Float, Integer, String
 
-from sqlalchemy import Integer, String, Float, Boolean, Column
-from entity.orm import Base
 from entity import orm
-
+from entity.orm import Base
 
 
 class Dados_modelos(Base):
@@ -18,49 +16,49 @@ class Dados_modelos(Base):
     cliMicroEmpreendedor = Column(Integer, nullable=True)
     CliConsFinal = Column(Boolean, nullable=True)
     HistPagPONTUAL = Column(Float, nullable=True)
-    HistPagAVISTA = Column(Float, nullable=True) 
+    HistPagAVISTA = Column(Float, nullable=True)
     HistPag8_15 = Column(Float, nullable=True)
     HistPag16_30 = Column(Float, nullable=True)
     HistPag31_60 = Column(Float, nullable=True)
     HistPag_60 = Column(Float, nullable=True)
     QtConsultado = Column(Float, nullable=True)
-    RelaFornec0_6Meses = Column(Float, nullable=True) 
-    RelaFornec6Mes_1Ano = Column(Float, nullable=True) 
-    RelaFornec1_3Anos = Column(Float, nullable=True) 
-    RelaFornec3_5Anos = Column(Float, nullable=True) 
-    RelaFornec5_10Anos = Column(Float, nullable=True) 
-    RelaFornec10Anos = Column(Float, nullable=True) 
-    RelaFornecINAT = Column(Float,nullable=True)
+    RelaFornec0_6Meses = Column(Float, nullable=True)
+    RelaFornec6Mes_1Ano = Column(Float, nullable=True)
+    RelaFornec1_3Anos = Column(Float, nullable=True)
+    RelaFornec3_5Anos = Column(Float, nullable=True)
+    RelaFornec5_10Anos = Column(Float, nullable=True)
+    RelaFornec10Anos = Column(Float, nullable=True)
+    RelaFornecINAT = Column(Float, nullable=True)
     PefinNumOcorrencia = Column(Float, nullable=True)
     PefinValorTotal = Column(Float, nullable=True)
-    RefinNumOcorrencia = Column(Float, nullable=True) 
-    RefinValorTotal = Column(Float, nullable=True) 
-    DividasVencNumOcorrencia = Column(Float, nullable=True) 
-    DividasVencValorTotal = Column(Float, nullable=True) 
-    FalenConcNumOcorrencia = Column(Float, nullable=True) 
-    CheqSFundoNumOcorrencia = Column(Float, nullable=True) 
-    RechequeNumOcorrencia = Column(Float, nullable=True) 
-    PartFalenNumOcorrencia = Column(Float, nullable=True)     
-  
+    RefinNumOcorrencia = Column(Float, nullable=True)
+    RefinValorTotal = Column(Float, nullable=True)
+    DividasVencNumOcorrencia = Column(Float, nullable=True)
+    DividasVencValorTotal = Column(Float, nullable=True)
+    FalenConcNumOcorrencia = Column(Float, nullable=True)
+    CheqSFundoNumOcorrencia = Column(Float, nullable=True)
+    RechequeNumOcorrencia = Column(Float, nullable=True)
+    PartFalenNumOcorrencia = Column(Float, nullable=True)
+
     start_json = Column(Boolean, nullable=False, default=False)
-    end_json = Column(Boolean, nullable=False, default=False) 
+    end_json = Column(Boolean, nullable=False, default=False)
 
     @classmethod
-    def new_dados_modelos(cls,Id,**filtros):
+    def new_dados_modelos(cls, Id, **filtros):
         QH = orm.QueryHelper()
         try:
-            QH.inserir_registro(cls,cliid=Id,**filtros)
-            return "Novo registro adicionado com sucesso."
+            QH.inserir_registro(cls, cliid=Id, **filtros)
+            return 'Novo registro adicionado com sucesso.'
         except Exception as e:
-            print(f"Erro ao adicionar dados_modelos: {e}")
+            print(f'Erro ao adicionar dados_modelos: {e}')
             raise
 
     @classmethod
-    def delete_dados_modelos(cls,Id):
+    def delete_dados_modelos(cls, Id):
         QH = orm.QueryHelper()
         try:
-            QH.deletar_registro(cls,cliid=Id)
-            return "Registros deletados com sucesso."
+            QH.deletar_registro(cls, cliid=Id)
+            return 'Registros deletados com sucesso.'
         except Exception as e:
-            print(f"Erro ao deletar dados_modelos: {e}")
+            print(f'Erro ao deletar dados_modelos: {e}')
             raise

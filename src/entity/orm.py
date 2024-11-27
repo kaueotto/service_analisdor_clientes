@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine
 # from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker,declarative_base
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 from config import configs
 
 Base = declarative_base()
+
 
 class QueryHelper:
     def __init__(self):
@@ -33,12 +34,12 @@ class QueryHelper:
     def alterar_registros(self, model_class, filtros, **novos_dados):
         try:
             registros = self.session.query(model_class).filter_by(**filtros)
-            registros.update(novos_dados, synchronize_session="fetch")
+            registros.update(novos_dados, synchronize_session='fetch')
             self.session.commit()
             return registros.all()
         except Exception as e:
             self.session.rollback()
-            print(f"Erro ao atualizar registros: {e}")
+            print(f'Erro ao atualizar registros: {e}')
             return None
 
     def deletar_registro(self, model_class, **filtros):
@@ -47,6 +48,6 @@ class QueryHelper:
             registros.delete(synchronize_session='fetch')
             self.session.commit()
         return f'Registros {registros.count()} deletados com sucesso'
-    
+
     def buscar_lista(self, model_class, **filtros):
         return self.session.query(model_class).filter_by(**filtros).all()

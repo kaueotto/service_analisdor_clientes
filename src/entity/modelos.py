@@ -1,9 +1,11 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary
+from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer,
+                        LargeBinary)
 
-from entity.orm import Base
 from entity import orm
+from entity.orm import Base
+
 
 class Modelos(Base):
     __tablename__ = 'modelos'
@@ -15,20 +17,14 @@ class Modelos(Base):
     ModDataInclusao = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     @classmethod
-    def new_modelo(cls,cliid,modelo):
+    def new_modelo(cls, cliid, modelo):
         QH = orm.QueryHelper()
         try:
-            filtros = {"ModCliId":cliid,"ModAtivo":True}
-            novos_dados = {"ModAtivo":False}
-            QH.alterar_registros(cls,filtros,**novos_dados)
-            QH.inserir_registro(cls,ModCliId=cliid,ModTreinado=modelo)
+            filtros = {'ModCliId': cliid, 'ModAtivo': True}
+            novos_dados = {'ModAtivo': False}
+            QH.alterar_registros(cls, filtros, **novos_dados)
+            QH.inserir_registro(cls, ModCliId=cliid, ModTreinado=modelo)
             return 'Modelo inserido com sucesso!'
         except Exception as e:
-            print(f"Erro ao adicionar cliente: {e}")
+            print(f'Erro ao adicionar cliente: {e}')
             raise
-    
-    
-
-    
-
-

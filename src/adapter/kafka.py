@@ -2,6 +2,7 @@ from kafka import KafkaConsumer, KafkaProducer
 
 from config import configs
 
+
 class KafkaAdapter:
     def __init__(self):
         self.producer = KafkaProducer(bootstrap_servers=configs.ENDERECO_KAFKA)
@@ -21,12 +22,10 @@ class KafkaAdapter:
             group_id=groupid,
             auto_offset_reset='latest',
             enable_auto_commit=False,
-            value_deserializer=lambda x: x.decode('utf-8')
+            value_deserializer=lambda x: x.decode('utf-8'),
         )
         while True:
             mensagem = consumer.poll(timeout_ms=1000)
             if mensagem:
                 consumer.commit()
                 return mensagem.items()
-            
-        

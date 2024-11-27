@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 import json
+from threading import Thread
 
 from flask import Flask, jsonify, request
-from flask_cors import CORS 
+from flask_cors import CORS
+
 from adapter import kafka
+from controller import (consumer_cadastros, consumer_fila_pedidos,
+                        processamento_pedidos)
 from security import security
-from threading import Thread
-from controller import consumer_cadastros,consumer_fila_pedidos,processamento_pedidos
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/cadastro/modelos', methods=['POST'])
 def cadastro_modelos():
@@ -20,12 +23,19 @@ def cadastro_modelos():
         return jsonify({'message': 'Token é necessário!'}), 401
     cli_valido, dto = security.verify_token(token)
     if not cli_valido:
-        return jsonify({'message': 'Token inválido ou usuário não autorizado!'}), 403
+        return (
+            jsonify({'message': 'Token inválido ou usuário não autorizado!'}),
+            403,
+        )
     dados = request.get_json()
     if not dados:
         return jsonify({'message': 'Dados do modelo são necessários!'}), 400
-    
-    novo_json = {'tipo': 'dados_treinamento', 'dados': dados, 'context': dto.to_dict()}
+
+    novo_json = {
+        'tipo': 'dados_treinamento',
+        'dados': dados,
+        'context': dto.to_dict(),
+    }
     kafka_controller = kafka.KafkaAdapter()
     kafka_controller.produzir_mensagem(
         json.dumps(novo_json).encode('utf-8'),
@@ -34,7 +44,7 @@ def cadastro_modelos():
     )
     return jsonify({'mensagem': 'Mensagem Inserida'}), 200
 
-    
+
 @app.route('/cadastro/cliente', methods=['POST'])
 def cadastros():
     dados = request.get_json()
@@ -47,7 +57,8 @@ def cadastros():
     )
     return jsonify({'mensagem': 'Mensagem Inserida'}), 200
 
-@app.route('/fila/pedidos',methods=['POST'])
+
+@app.route('/fila/pedidos', methods=['POST'])
 def fila_pedidos():
     token = None
     if 'Authorization' in request.headers:
@@ -57,7 +68,10 @@ def fila_pedidos():
         return jsonify({'message': 'Token é necessário!'}), 401
     cli_valido, dto = security.verify_token(token)
     if not cli_valido:
-        return jsonify({'message': 'Token inválido ou usuário não autorizado!'}), 403
+        return (
+            jsonify({'message': 'Token inválido ou usuário não autorizado!'}),
+            403,
+        )
     dados = request.get_json()
     if not dados:
         return jsonify({'message': 'Dados do modelo são necessários!'}), 400
@@ -70,9 +84,11 @@ def fila_pedidos():
     )
     return jsonify({'mensagem': 'Mensagem Inserida'}), 200
 
-@app.route('/fila/pedidos/resultado',methods=['POST'])
+
+@app.route('/fila/pedidos/resultado', methods=['POST'])
 def buscar_resultado():
-    from src.entity import fila 
+    from src.entity import fila
+
     token = None
     if 'Authorization' in request.headers:
         token = request.headers['Authorization']
@@ -80,18 +96,29 @@ def buscar_resultado():
         return jsonify({'message': 'Token é necessário!'}), 401
     cli_valido, dto = security.verify_token(token)
     if not cli_valido:
-        return jsonify({'message': 'Token inválido ou usuário não autorizado!'}), 403
+        return (
+            jsonify({'message': 'Token inválido ou usuário não autorizado!'}),
+            403,
+        )
     dados = request.get_json()
-    resultado,motivo = fila.Fila.buscar_resultado(dados['pedid'])
-    
-    return jsonify({'resultado':resultado,'motivo':motivo}),200
+    resultado, motivo = fila.Fila.buscar_resultado(dados['pedid'])
+
+    return jsonify({'resultado': resultado, 'motivo': motivo}), 200
 
 
 if __name__ == '__main__':
-    flask_thread = Thread(target = app.run, kwargs={'host': 'localhost','port': '8081'})
-    consumer_cadastros_thread = Thread(target=consumer_cadastros.consumer_cadastros)
-    consumer_fila_pedidos_thread = Thread(target=consumer_fila_pedidos.consumer_fila_pedidos)
-    processamento_pedidos_thread = Thread(target=processamento_pedidos.processa_fila_pedidos)
+    flask_thread = Thread(
+        target=app.run, kwargs={'host': 'localhost', 'port': '8081'}
+    )
+    consumer_cadastros_thread = Thread(
+        target=consumer_cadastros.consumer_cadastros
+    )
+    consumer_fila_pedidos_thread = Thread(
+        target=consumer_fila_pedidos.consumer_fila_pedidos
+    )
+    processamento_pedidos_thread = Thread(
+        target=processamento_pedidos.processa_fila_pedidos
+    )
 
     flask_thread.start()
     consumer_cadastros_thread.start()
