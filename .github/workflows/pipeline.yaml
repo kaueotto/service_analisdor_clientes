@@ -24,6 +24,9 @@ jobs:
       - name: Conceder permissão de execução ao serviço
         run: chmod +x src/service.py
 
+      - name: Testes
+        run: poetry run pytest
+
       - name: Login Docker Hub
         run: echo "${{ secrets.PASSWD_DOCKER }}" | docker login -u "${{ secrets.USR_DOCKER }}" --password-stdin
 
