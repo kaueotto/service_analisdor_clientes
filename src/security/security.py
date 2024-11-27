@@ -5,7 +5,7 @@ from entity import cliente,orm
 from entity.dto import dto_cliente
 
 def create_token(data) -> str:
-    payload = {'    ': data}
+    payload = {"data": data}
     token = jwt.encode(payload, configs.TOKEN, algorithm='HS256')
     return token
 
@@ -23,5 +23,5 @@ def verify_token(token) -> bool:
                 return False,''
         else:
             return False,''
-    except jwt.InvalidTokenError:
-        return 'Token inválido!'
+    except jwt.InvalidTokenError as e:
+        return e

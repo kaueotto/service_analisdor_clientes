@@ -9,7 +9,7 @@ from security import security
 
 class Cliente(Base):
     __tablename__ = 'cliente'
-
+    __table_args__ = {"extend_existing": True} # Permite reutilizar a definição da tabela no pytest
     CliId = Column(Integer, primary_key=True, autoincrement=True)
     CliNome = Column(String(255), nullable=False)
     CliEmail = Column(String(255), nullable=False)
