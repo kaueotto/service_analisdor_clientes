@@ -3,7 +3,7 @@ name: Pipeline
 on: [push, pull_request]
 
 jobs:
-  Pipeline CI:
+  test:
     runs-on: ubuntu-latest
 
     steps:
