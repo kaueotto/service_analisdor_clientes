@@ -52,6 +52,26 @@ Bibliotecas e FrameWorks
   * ConfigParser
   * Kafka
 
+## CI/CD
+  * GitHub Actions
+  * Docker/Docker Hub
+
+## Testes
+  * Pytest
+    
+## Resultados
+ Para avaliar o resultado do modelo gerado utilizei 30% da base para os testes ao todo 8381 amostras que resultaram em uma acurácia de 80.77% de precisão
+
+Matriz de confusão 
+
+|      | liberado | bloqueado |
+|-----------------|----------|-----------|
+| **liberado**    | 2924     | 989       |
+| **bloqueado**   | 623      | 3845      |
+
+O total de amostras de pedidos liberados são de 3913, o modelo conseguiu acertar com 2924 pedidos.  
+O total de amostras de pedidos bloqueados são de 4468, o modelo conseguiu acertar com 3845 pedidos.
+
 # Requisitos Funcionais  
 
 ### **RF01: Gerenciamento de Pré-Cadastro**  
