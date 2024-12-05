@@ -51,6 +51,10 @@ Bibliotecas e FrameWorks
   * Json
   * ConfigParser
   * Kafka
+  * threading
+  * pickle
+  * sklearn
+  * lime
 
 ## CI/CD
   * GitHub Actions
